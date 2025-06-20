@@ -1,0 +1,82 @@
+/* Custom styles for animations, layout, and game elements.
+    Using a style block allows for more complex selectors and animations
+    than inline Tailwind classes alone.
+*/
+body {
+    font-family: 'Inter', sans-serif;
+    /* Prevents double-tap zoom on mobile, improving the touch experience */
+    touch-action: manipulation;
+}
+
+/* Styles for the individual letter tiles in the grid */
+.tile {
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid #374151; /* gray-700 */
+    color: white;
+    transition: transform 0.6s, background-color 0.3s, border-color 0.3s;
+    transform-style: preserve-3d;
+}
+
+/* Animation for when a letter is first typed into a tile */
+.tile.pop {
+    animation: pop 0.1s ease-in-out;
+}
+
+/* Animation for an invalid guess (word not in list) */
+.tile.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Animation for flipping the tile to reveal its color */
+.tile.flip {
+    transform: rotateX(180deg);
+}
+
+/* The front face of the tile (visible before flipping) */
+.tile .front {
+    z-index: 1;
+    backface-visibility: hidden;
+}
+
+/* The back face of the tile (visible after flipping) */
+.tile .back {
+    transform: rotateX(180deg);
+    backface-visibility: hidden;
+    position: absolute;
+}
+
+/* Color states for tiles and keyboard keys after a guess */
+.tile.correct, .key.correct {
+    background-color: #538d4e !important;
+    border-color: #538d4e !important;
+}
+
+.tile.present, .key.present {
+    background-color: #b59f3b !important;
+    border-color: #b59f3b !important;
+}
+
+.tile.absent, .key.absent {
+    background-color: #3a3a3c !important;
+    border-color: #3a3a3c !important;
+}
+
+/* Keyframe animations */
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+    20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
